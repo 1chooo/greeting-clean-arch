@@ -2,9 +2,9 @@ import os
 
 import redis
 from dotenv import find_dotenv, load_dotenv
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, status
 from fastapi.exceptions import HTTPException
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -14,39 +14,33 @@ REDIS_HOST = os.environ.get('REDIS_HOST')
 REDIS_PORT = os.environ.get('REDIS_PORT')
 redis_cli = redis.Redis(
     host=REDIS_HOST, port=REDIS_PORT, 
-    decode_responses=True)
+    decode_responses=True
+)
 
 
 class Item(BaseModel):
     name: str
 
-@app.get("/")
+@app.get("/", status_code=status.HTTP_200_OK)
 async def root():
     return {"message": "Hello World"}
 
 
-@app.post("/items/")
+@app.post("/items/", status_code=status.HTTP_201_CREATED)
 async def create_item(item: Item):
     # Add item to the Redis list
     redis_cli.rpush("items", item.name)
     return {"message": "Item added successfully"}
 
 
-@app.get("/items/")
+@app.get("/items/", status_code=status.HTTP_200_OK)
 async def get_items():
     # Retrieve items from the Redis list
     items = redis_cli.lrange("items", 0, -1)
     return {"items": items}
 
 
-@app.delete("/items/")
-async def delete_items():
-    # Delete all items from the Redis list
-    redis_cli.delete("items")
-    return {"message": "Items deleted successfully"}
-
-
-@app.delete("/items/{item_name}")
+@app.delete("/items/{item_name}", status_code=status.HTTP_200_OK)
 async def delete_item(item_name: str):
     # Delete a specific item from the Redis list
     if item_name not in redis_cli.lrange("items", 0, -1):
