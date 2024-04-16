@@ -1,11 +1,41 @@
 # Python with Redis through Docker
 
+![](./imgs/python-reddis-docker.png)
+
+Streamlining the service of FastAPI and Redis through Docker packaging.
+
+
+![](./imgs/python-reddis-docker-demo.png)
+
+## Project Structure
+
+```shell
+PROJECT_ROOT
+├── app/
+│   ├── __init__.py
+│   └── main.py
+├── scripts/
+│   ├── run.sh
+│   └── test.sh
+├── test/
+│   └── test_api.py
+├── .env
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── LICENSE
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+└── requirements.txt
+```
+
 ## Developing Requirements
 
 Python version `python3.11` or later with [`poetry`](https://python-poetry.org/) to manage the dependencies.
 
 > [!IMPORTANT]
-> If you have not installed `poetry`, please install it by following the [official guide](https://python-poetry.org/docs/#installation)
+> If you have not installed `poetry`, please install it by following the [official guide](https://python-poetry.org/docs/#installation) or you still can use `pip` to install the dependencies.
 
 
 ### Build `venv` for **MacOS**
@@ -13,6 +43,8 @@ Python version `python3.11` or later with [`poetry`](https://python-poetry.org/)
 $ python3.11 -m venv venv
 $ source venv/bin/activate
 $ poetry install
+# or
+$ pip install -r requirements.txt
 $ rm -rf venv     # remove the venv
 ```
 
@@ -22,6 +54,8 @@ $ pip install virtualenv
 $ virtualenv venv
 $ venv\Scripts\activate
 $ poetry install
+# or
+$ pip install -r requirements.txt
 $ rmdir /s venv     # remove the venv
 ```
 
@@ -33,38 +67,27 @@ Edit the `.env` file with your own token.
 $ cp .env.example .env
 ```
 
-<!-- ```shell
-# LINE
-CHANNEL_ACCESS_TOKEN='YOUR_CHANNEL_ACCESS_TOKEN'
-CHANNEL_SECRET='YOUR_CHANNEL_SECRET'
+```shell
+REDIS_HOST="localhost"
+REDIS_PORT="6379"
+```
 
-# FASTAPI
-HOST='YOUR_DOMAIN_NAME'
-PORT=8080
 
-# AWS
-AWS_CLIENT_ACCESS_KEY_ID="YOUR_AWS_CLIENT_ACCESS_KEY_ID"
-AWS_CLIENT_SECRET_ACCESS_KEY="YOUR_AWS_CLIENT_SECRET_ACCESS_KEY"
-AWS_CLIENT_SESSION_TOKEN = "YOUR_AWS_CLIENT_SESSION_TOKEN"
-AWS_CLIENT_BUCKET_ARN = "YOUR_AWS_CLIENT_BUCKET_ARN"
-AWS_CLIENT_REGION_NAME = "YOUR_AWS_CLIENT_REGION_NAME"
-``` -->
+### Run the FastAPI server
 
 ```shell
 ./scripts/run.sh
 ```
 
+### Test the FastAPI server
+
+```shell
+./scripts/test.sh
+```
+
 ## Deployment
 
 with `docker` and `docker-compose` installed, you can build and run the docker image.
-
-### Build the docker image
-
-```shell
-$ docker build -t todam-backend:<TAG_NAME> .
-
-$ docker run -p 8080:8080 todam-backend:<TAG_NAME>
-```
 
 ### Run the docker container
 ```shell
@@ -78,30 +101,24 @@ $ docker-compose stop
 $ docker-compose down
 ```
 
+> [!WARNING] 
+> Since our service separates the server and the database into different containers, we need to pay attention to our `.env` file. We need to set `REDIS_HOST` to redis so that our FastAPI can connect to Redis.
 
-```bash
-$ docker run --name my-redis -p 6379:6379 -d redis
-```
+> AWS Educate Cloud Ambassador, Technical Support </br>
+> **Hugo ChunHo Lin**
+> 
+> <aside>
+>   📩 E-mail: <a href="mailto:hugo970217@gmail.com">hugo970217@gmail.com</a>
+> <br>
+>   🧳 Linkedin: <a href="https://www.linkedin.com/in/1chooo/">Hugo ChunHo Lin</a>
+> <br>
+>   👨🏻‍💻 GitHub: <a href="https://github.com/1chooo">1chooo</a>
+>    
+> </aside>
 
-```bash
-$ docker exec -it my-redis sh
-# 
-```
+## License
+Released under [MIT](./LICENSE) by [Hugo ChunHo Lin](https://github.com/1chooo).
 
-```bash
-redis-cli
-127.0.0.1:6379> keys *
-(empty array)
-```
-
-```bash
-127.0.0.1:6379> SET key1 value1
-OK
-127.0.0.1:6379>
-127.0.0.1:6379> keys *
-1) "key1"
-127.0.0.1:6379>
-127.0.0.1:6379> mget key1
-1) "value1"
-127.0.0.1:6379>
-```
+This software can be modified and reused without restriction.
+The original license must be included with any copies of this software.
+If a significant portion of the source code is used, please provide a link back to this repository.
