@@ -1,6 +1,8 @@
-import unittest
-import requests
 import json
+import unittest
+
+import requests
+
 
 class TestItemEndpoint(unittest.TestCase):
     base_url = "http://localhost:8080/items/"
@@ -8,11 +10,11 @@ class TestItemEndpoint(unittest.TestCase):
     def test_create_items(self):
         data = {"name": "item1"}
         response = requests.post(self.base_url, headers={"Content-Type": "application/json"}, data=json.dumps(data))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
         data = {"name": "item2"}
         response = requests.post(self.base_url, headers={"Content-Type": "application/json"}, data=json.dumps(data))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
     def test_get_items(self):
         response = requests.get(self.base_url)
