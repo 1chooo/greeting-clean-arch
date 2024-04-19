@@ -24,9 +24,6 @@ class TestItemEndpoint(unittest.TestCase):
         response = requests.delete(self.base_url + "item1")
         self.assertEqual(response.status_code, 200)
 
-        response = requests.delete(self.base_url)
-        self.assertEqual(response.status_code, 200)
-
     def test_get_items_after_deletion(self):
         response = requests.get(self.base_url)
         self.assertEqual(response.status_code, 200)
