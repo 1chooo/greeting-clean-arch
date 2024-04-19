@@ -61,15 +61,19 @@ $ rmdir /s venv     # remove the venv
 
 ### Run web app
 
-Edit the `.env` file with your own token.
+Edit the `.env.<YOUR_ENV_TYPE>` file with your own token.
 
 ```shell
-$ cp .env.example .env
+$ cp .env.dev.example .env.dev
 ```
 
 ```shell
+APP_MODE="dev | prod | test"
+HOST="localhost"
+PORT="8080"
 REDIS_HOST="localhost"
 REDIS_PORT="6379"
+RELOAD="True"
 ```
 
 
