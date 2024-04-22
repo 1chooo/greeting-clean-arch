@@ -1,18 +1,18 @@
 [tool.poetry]
 name = "python-redis-docker"
-version = "0.1.0"
+version = "0.0.1"
 description = ""
 authors = ["1chooo <hugo970217@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-redis = "^5.0.3"
-python-dotenv = "^1.0.1"
-fastapi = "^0.110.1"
-uvicorn = "^0.29.0"
-requests = "^2.31.0"
 pydantic-settings = "^2.2.1"
+python-dotenv = "^1.0.1"
+fastapi = "^0.110.2"
+requests = "^2.31.0"
+redis = "^5.0.3"
+uvicorn = "^0.29.0"
 
 
 [build-system]

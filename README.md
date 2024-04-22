@@ -77,16 +77,22 @@ RELOAD="True"
 ```
 
 
-### Run the FastAPI server
+#### Run the Redis server with Docker Image
 
 ```shell
-./scripts/run.sh
+$ docker run --name my-redis -p 6379:6379 -d redis 
 ```
 
-### Test the FastAPI server
+#### Run the FastAPI server
 
 ```shell
-./scripts/test.sh
+$ ./scripts/run.sh
+```
+
+#### Test the FastAPI server
+
+```shell
+$ ./scripts/test.sh
 ```
 
 ## Deployment
@@ -96,9 +102,9 @@ with `docker` and `docker-compose` installed, you can build and run the docker i
 ### Run the docker container
 ```shell
 # build the docker image and run the container
-$ docker-compose up -d
+$ docker-compose up --detach
 # follow the logs
-$ docker-compose logs -f
+$ docker-compose logs --follow
 # stop the container but keep the container
 $ docker-compose stop
 # stop the container and discard the container
